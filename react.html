@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>People</title>
+    </head>
+    <body>
+        <div id="people">
+            <h1>People</h1>
+        </div>
+    </body>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/jsx">
+
+const API = 'http://me-dev:8080'
+
+function People() {
+    const [peopleData, setPeopleData] = React.useState()
+
+    React.useEffect(() => {
+        fetch(`${API}/people`)
+            .then(json => json.json())
+            .then(data => setPeopleData(data))
+    }, [])
+
+    if (!peopleData)
+        return null
+
+    return peopleData.map(
+         person => (
+             <div key={person.id}>
+                 <hr/>
+                 <h3 >{person.firstname} {person.lastname}</h3>
+             </div>
+        )
+    )
+}
+
+function App() {
+    return (
+        <div>
+            <h1>People</h1>
+            <People />
+        </div>
+    )
+}
+
+     const rootElement = document.getElementById('people')
+
+     const root = ReactDOM.createRoot(rootElement)
+     root.render(<App />)
+    </script>
+</html>
