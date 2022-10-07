@@ -20,9 +20,13 @@ function People() {
     const [peopleData, setPeopleData] = React.useState()
 
     React.useEffect(() => {
-        fetch(`${API}/people`)
-            .then(json => json.json())
-            .then(data => setPeopleData(data))
+
+        const fetchData = async () => {
+            const response = await fetch(`${API}/people`)
+            const peopleData = await response.json()
+            setPeopleData(peopleData)
+        }
+        fetchData()
     }, [])
 
     if (!peopleData)
@@ -32,11 +36,11 @@ function People() {
          person => (
              <div key={person.id}>
                  <hr/>
-                 <h3 >{person.firstname} {person.lastname}</h3>
+                 <h3>{person.firstname} {person.lastname}</h3>
              </div>
         )
-    )
-}
+     )
+     }
 
 function App() {
     return (
